@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Subnet-X | Advanced Subnet Calculator</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Background Decoration -->
+    <div class="background">
+        <div class="blob blob-one"></div>
+        <div class="blob blob-two"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="navbar">
+        <div class="logo">
+            <div class="logo-icon">SX</div>
+
+            <div>
+                <h1>Subnet-X</h1>
+                <span>Network Calculation Toolkit</span>
+            </div>
+        </div>
+
+        <div class="nav-actions">
+            <button id="themeToggle" class="icon-button" title="Ganti Tema">
+                ☾
+            </button>
+
+            <button id="clearHistory" class="text-button">
+                Clear History
+            </button>
+        </div>
+    </header>
+
+
+    <main class="container">
+
+        <!-- Hero -->
+        <section class="hero">
+
+            <div class="hero-content">
+                <div class="badge">
+                    IPv4 NETWORK TOOL
+                </div>
+
+                <h2>
+                    Calculate your network
+                    <span>with precision.</span>
+                </h2>
+
+                <p>
+                    Masukkan IPv4 Address dan prefix CIDR untuk mendapatkan
+                    informasi lengkap mengenai jaringan, host, subnet mask,
+                    broadcast address, dan analisis subnet.
+                </p>
+            </div>
+
+            <div class="network-visual">
+                <div class="network-circle circle-main">
+                    <span>IP</span>
+                </div>
+
+                <div class="network-node node-one"></div>
+                <div class="network-node node-two"></div>
+                <div class="network-node node-three"></div>
+
+                <div class="network-line line-one"></div>
+                <div class="network-line line-two"></div>
+                <div class="network-line line-three"></div>
+            </div>
+
+        </section>
+
+
+        <!-- Calculator -->
+        <section class="calculator-grid">
+
+            <!-- Input Panel -->
+            <div class="card calculator-card">
+
+                <div class="card-header">
+                    <div>
+                        <p class="eyebrow">CALCULATOR</p>
+                        <h3>Subnet Configuration</h3>
+                    </div>
+
+                    <div class="status-indicator">
+                        <span></span>
+                        Ready
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="ipAddress">
+                        IPv4 Address
+                    </label>
+
+                    <div class="input-wrapper">
+                        <span class="input-icon">◎</span>
+
+                        <input
+                            type="text"
+                            id="ipAddress"
+                            placeholder="Contoh: 192.168.1.10"
+                            autocomplete="off"
+                        >
+                    </div>
+
+                    <small>
+                        Masukkan alamat IPv4 yang valid.
+                    </small>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="cidr">
+                        CIDR Prefix
+                    </label>
+
+                    <div class="cidr-input-row">
+
+                        <div class="input-wrapper">
+                            <span class="input-icon">/</span>
+
+                            <input
+                                type="number"
+                                id="cidr"
+                                min="0"
+                                max="32"
+                                value="24"
+                            >
+                        </div>
+
+                        <div class="cidr-preview">
+                            <span>Subnet Mask</span>
+                            <strong id="maskPreview">
+                                255.255.255.0
+                            </strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="quick-prefix">
+
+                    <span>Quick Prefix</span>
+
+                    <div class="prefix-buttons">
+                        <button data-prefix="8">/8</button>
+                        <button data-prefix="16">/16</button>
+                        <button data-prefix="24">/24</button>
+                        <button data-prefix="25">/25</button>
+                        <button data-prefix="26">/26</button>
+                        <button data-prefix="27">/27</button>
+                        <button data-prefix="28">/28</button>
+                        <button data-prefix="30">/30</button>
+                    </div>
+
+                </div>
+
+
+                <button id="calculateBtn" class="calculate-button">
+                    <span>Calculate Subnet</span>
+                    <span class="arrow">→</span>
+                </button>
+
+
+                <div id="errorMessage" class="error-message"></div>
+
+            </div>
+
+
+            <!-- Summary -->
+            <div class="card summary-card">
+
+                <div class="card-header">
+                    <div>
+                        <p class="eyebrow">NETWORK SUMMARY</p>
+                        <h3>Calculation Result</h3>
+                    </div>
+
+                    <button id="copyBtn" class="icon-button small" title="Copy Result">
+                        ⧉
+                    </button>
+                </div>
+
+
+                <div id="emptyState" class="empty-state">
+
+                    <div class="empty-icon">
+                        ◈
+                    </div>
+
+                    <h4>Ready to calculate</h4>
+
+                    <p>
+                        Masukkan IP Address dan CIDR untuk melihat
+                        hasil analisis jaringan.
+                    </p>
+
+                </div>
+
+
+                <div id="resultContent" class="result-content hidden">
+
+                    <div class="primary-result">
+
+                        <span>NETWORK ADDRESS</span>
+
+                        <h2 id="networkAddress">
+                            192.168.1.0
+                        </h2>
+
+                        <div class="result-tag" id="networkClass">
+                            Class C
+                        </div>
+
+                    </div>
+
+
+                    <div class="result-grid">
+
+                        <div class="result-item">
+                            <span>Broadcast</span>
+                            <strong id="broadcastAddress">-</strong>
+                        </div>
+
+                        <div class="result-item">
+                            <span>First Host</span>
+                            <strong id="firstHost">-</strong>
+                        </div>
+
+                        <div class="result-item">
+                            <span>Last Host</span>
+                            <strong id="lastHost">-</strong>
+                        </div>
+
+                        <div class="result-item">
+                            <span>Usable Hosts</span>
+                            <strong id="usableHosts">-</strong>
+                        </div>
+
+                    </div>
+
+
+                    <div class="network-type">
+
+                        <div>
+                            <span class="type-label">ADDRESS TYPE</span>
+
+                            <strong id="addressType">
+                                -
+                            </strong>
+                        </div>
+
+                        <div class="privacy-dot" id="privacyDot"></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Detailed Results -->
+        <section id="detailsSection" class="details-section hidden">
+
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">DETAILED ANALYSIS</p>
+                    <h2>Network Information</h2>
+                </div>
+
+                <span id="currentCidrBadge" class="cidr-badge">
+                    /24
+                </span>
+            </div>
+
+
+            <div class="info-grid">
+
+                <div class="info-card">
+
+                    <span class="info-label">
+                        Subnet Mask
+                    </span>
+
+                    <strong id="subnetMask">
+                        -
+                    </strong>
+
+                    <p>
+                        Mask yang digunakan untuk menentukan bagian
+                        network dan host.
+                    </p>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <span class="info-label">
+                        Wildcard Mask
+                    </span>
+
+                    <strong id="wildcardMask">
+                        -
+                    </strong>
+
+                    <p>
+                        Inverse dari subnet mask.
+                    </p>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <span class="info-label">
+                        Total Addresses
+                    </span>
+
+                    <strong id="totalAddresses">
+                        -
+                    </strong>
+
+                    <p>
+                        Jumlah keseluruhan alamat dalam subnet.
+                    </p>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <span class="info-label">
+                        Host Bits
+                    </span>
+
+                    <strong id="hostBits">
+                        -
+                    </strong>
+
+                    <p>
+                        Jumlah bit yang tersedia untuk host.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Binary -->
+            <div class="binary-card">
+
+                <div class="binary-header">
+
+                    <div>
+                        <p class="eyebrow">
+                            BINARY REPRESENTATION
+                        </p>
+
+                        <h3>IP Address Breakdown</h3>
+                    </div>
+
+                </div>
+
+
+                <div class="binary-row">
+
+                    <span class="binary-label">
+                        IP Address
+                    </span>
+
+                    <code id="binaryIP">
+                        -
+                    </code>
+
+                </div>
+
+
+                <div class="binary-row">
+
+                    <span class="binary-label">
+                        Subnet Mask
+                    </span>
+
+                    <code id="binaryMask">
+                        -
+                    </code>
+
+                </div>
+
+            </div>
+
+
+            <!-- Subnet Breakdown -->
+            <div class="subnet-card">
+
+                <div class="subnet-header">
+
+                    <div>
+                        <p class="eyebrow">
+                            SUBNET BREAKDOWN
+                        </p>
+
+                        <h3>Available Subnets</h3>
+                    </div>
+
+                    <div class="subnet-controls">
+
+                        <label>
+                            Show
+                        </label>
+
+                        <select id="subnetCount">
+
+                            <option value="8">8</option>
+                            <option value="16">16</option>
+                            <option value="32">32</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>#</th>
+                                <th>Network</th>
+                                <th>First Host</th>
+                                <th>Last Host</th>
+                                <th>Broadcast</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="subnetTableBody">
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- History -->
+        <section class="history-section">
+
+            <div class="section-heading">
+
+                <div>
+                    <p class="eyebrow">
+                        RECENT ACTIVITY
+                    </p>
+
+                    <h2>Calculation History</h2>
+                </div>
+
+                <span id="historyCount" class="history-count">
+                    0 calculations
+                </span>
+
+            </div>
+
+
+            <div id="historyList" class="history-list">
+
+                <div class="history-empty">
+
+                    <span>◌</span>
+
+                    <p>
+                        Belum ada riwayat perhitungan.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        <div class="footer-logo">
+            <strong>Subnet-X</strong>
+            <span>Advanced Network Toolkit</span>
+        </div>
+
+        <p>
+            Built for network learning and analysis.
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
